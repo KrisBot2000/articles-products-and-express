@@ -1,0 +1,36 @@
+CREATE USER kristin;
+CREATE DATABASE banana WITH OWNER kristin;
+
+\c banana
+
+
+
+DROP TABLE IF EXISTS articles;
+DROP TABLE IF EXISTS authors;
+DROP TABLE IF EXISTS products;
+
+
+CREATE TABLE products (
+  id SERIAL NOT NULL PRIMARY KEY,
+  name VARCHAR(125) NOT NULL,
+  price MONEY DEFAULT NULL,
+  inventory INT DEFAULT NULL
+);
+
+CREATE TABLE authors (
+  id SERIAL NOT NULL PRIMARY KEY,
+  first_name VARCHAR(125) NOT NULL,
+  last_name VARCHAR(125) NOT NULL
+);
+
+CREATE TABLE articles (
+  id SERIAL NOT NULL PRIMARY KEY,
+  title VARCHAR(125) NOT NULL,
+  body TEXT NOT NULL,
+  url VARCHAR(125) NOT NULL,
+  author_id INT REFERENCES authors(id) NOT NULL
+);
+
+
+
+
