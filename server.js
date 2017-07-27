@@ -22,11 +22,6 @@ app.use('/products', prodRouter);
 
 
 
-
-
-
-
-
 const server = app.listen(PORT, () => {
   console.log(`Server running on Port ${PORT}`);
 });
