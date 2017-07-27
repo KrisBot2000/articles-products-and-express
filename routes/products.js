@@ -15,18 +15,16 @@ router.route('/')
       res.redirect('/products/new');
     }
   })
-
+  //GET ALL
   .get(function(req, res) {
     database.query('SELECT * FROM products')
-    .then(function(allProducts){
-      console.log(allProducts);
-      res.render('products/index', {products: allProducts});
-    })
-    .catch(function(err){
-      console.log(err);
-
-    })
-
+  .then(function(allProducts){
+    console.log(allProducts);
+    res.render('products/index', {products: allProducts});
+  })
+  .catch(function(err){
+    console.log(err);
+  })
   });
 
 ///////////////
