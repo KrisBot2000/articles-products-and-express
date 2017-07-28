@@ -5,21 +5,23 @@ const database = require('../db/utilities/db-connect');
 
 
 router.route('/')
+  //POST PRODUCT
   .post(function(req, res) {
 
     return database
       .query(
         'INSERT INTO products (name, price, inventory) VALUES ($1, $2, $3)',
-        [req.body.name, req.body.price, req.body.inventory]
+        [req.body.name, parseInt(req.body.price), parseInt(req.body.inventory)]
       )
       .then(function(result){
         res.redirect('products/');
       })
       .catch(function(err){
+        console.log('err in /products POST:', err);
         res.redirect('/products/new');
       });
   })
-  //GET ALL
+  //GET ALL PRODUCTS
   .get(function(req, res) {
 
     return database
@@ -34,41 +36,49 @@ router.route('/')
       });
   });
 
-///////////////
+router.get('/new', function(req, res) {
+  res.render('products/new');
+});
 
-// router.get('/new', function(req, res) {
-//   //console.log("here");
-//   res.send('new');
-// });
+router.route('/:id')
+  // .put(function(req, res) {
+  //   if(true){
+  //     res.redirect(`/products/:${req.id}`);
+  //   }else{
+  //     res.redirect('/products/:id/edit');
+  //   }
+  // })
 
-////////////////
+  //DELETE PRODUCT by ID
+  .delete(function(req, res) {
 
-// router.route('/:id')
-//   .put(function(req, res) {
-//     if(true){
-//       res.redirect(`/products/:${req.id}`);
-//     }else{
-//       res.redirect('/products/:id/edit');
-//     }
-//   })
+    return database
+      .query(
+        'DELETE FROM products WHERE products.id = $1',
+        [req.params.id]
+      )
+      .then(function(x){
+        res.redirect('/products')
+      })
+      .catch(function(err){
+        res.redirect('/products/:id');
+      });
+  })
+  //GET PRODUCT by ID
+  .get(function(req, res) {
 
-//   .delete(function(req, res) {
-//     let poot = pdb.delete(req.body.id);
-//     if(poot===true){
-//       res.redirect('/products');
-//     }else{
-//       res.redirect('/products/:id');
-//     }
-//   })
-
-//   .get(function(req, res) {
-//     //console.log(req.params);
-//     let one = pdb.findOne(Number(req.params.id));
-
-//     //console.log(one);
-//     res.render('./products/product', {id: one.id, name: one.name, price: one.price, inventory: one.inventory});
-
-// });
+    return database
+      .query(
+        'SELECT * FROM products WHERE products.id = $1',
+        [req.params.id]
+      )
+      .then(function(hoop){
+        res.render('products/product', hoop[0])
+      })
+      .catch(function(err){
+        res.redirect('/products/:id');
+      });
+  });
 
 // /////////////////
 

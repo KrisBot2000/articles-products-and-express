@@ -1,7 +1,7 @@
-CREATE USER kristin;
-CREATE DATABASE banana WITH OWNER kristin;
+-- CREATE USER kristin;
+-- CREATE DATABASE banana WITH OWNER kristin;
 
-\c banana
+-- \c banana
 
 
 
@@ -12,7 +12,7 @@ DROP TABLE IF EXISTS products;
 
 CREATE TABLE products (
   id SERIAL NOT NULL PRIMARY KEY,
-  name VARCHAR(125) NOT NULL,
+  name VARCHAR(125) NOT NULL UNIQUE,
   price MONEY DEFAULT NULL,
   inventory INT DEFAULT NULL
 );
@@ -25,7 +25,7 @@ CREATE TABLE authors (
 
 CREATE TABLE articles (
   id SERIAL NOT NULL PRIMARY KEY,
-  title VARCHAR(125) NOT NULL,
+  title VARCHAR(125) NOT NULL UNIQUE,
   body TEXT NOT NULL,
   url VARCHAR(125) NOT NULL,
   author_id INT REFERENCES authors(id) NOT NULL
